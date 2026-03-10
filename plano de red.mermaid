@@ -1,0 +1,132 @@
+graph TB
+    subgraph "Capa de Acceso IoT"
+        direction TB
+        S1["Sensor LoRa<br/>(Alumbrado)"]
+        S2["Sensor LoRa<br/>(Medidor Agua)"]
+        S3["Sensor LoRa<br/>(Parking)"]
+        S4["Sensor LoRa<br/>(Contenedor)"]
+    end
+
+    subgraph "Capa de Agregación (Gateways)"
+        GW1["Gateway LoRaWAN 1<br/>(Zona Norte)"]
+        GW2["Gateway LoRaWAN 2<br/>(Zona Centro)"]
+        GW3["Gateway LoRaWAN 3<br/>(Zona Sur)"]
+        GW4["Gateway LoRaWAN 4<br/>(Zona Este)"]
+    end
+
+    subgraph "Capa de Núcleo SDN (Plano de Datos)"
+        direction LR
+        SW1["Switch Fabric<br/>Core-1"]
+        SW2["Switch Fabric<br/>Core-2"]
+        SW3["Switch Fabric<br/>Agregación-1"]
+        SW4["Switch Fabric<br/>Agregación-2"]
+    end
+
+    subgraph "Capa de Control SDN"
+        CTRL["Controlador SDN<br/>OpenDaylight/ONOS"]
+        APPS["Aplicaciones SDN:<br/>- QoS dinámica<br/>- Gestión de flujos<br/>- Telemetría"]
+    end
+
+    subgraph "Capa de NFV (Virtualización)"
+        direction TB
+        VNF1["vBRAS<br/>(Control de acceso)"]
+        VNF2["vFirewall<br/>(Seguridad perimetral)"]
+        VNF3["vLB<br/>(Balanceo IoT)"]
+        VNF4["vEPC<br/>(Núcleo paquetes)"]
+        VNF5["LoRaWAN NS<br/>(Servidor Red)"]
+        VNF6["MANO<br/>(Orquestación)"]
+    end
+
+    subgraph "Red de Transporte"
+        MPLS["Red MPLS/IP<br/>(Backbone)"]
+        FIBRA["Enlaces Fibra Óptica<br/>(10G/100G)"]
+    end
+
+    subgraph "Plataforma IoT"
+        IOT_PLAT["Plataforma IoT<br/>(ThingsBoard/AWS IoT)"]
+        DB_IOT["Base de Datos<br/>Time Series"]
+        DASH["Dashboards<br/>Visualización"]
+    end
+
+    %% Conexiones IoT - Gateways
+    S1 --> GW1
+    S2 --> GW1
+    S3 --> GW2
+    S4 --> GW3
+    S1 --> GW2
+    S3 --> GW4
+
+    %% Gateways a Núcleo SDN
+    GW1 -- "Backhaul (Fibra/5GHz)" --> SW3
+    GW2 -- "Backhaul (Fibra/5GHz)" --> SW3
+    GW3 -- "Backhaul (Fibra/5GHz)" --> SW4
+    GW4 -- "Backhaul (Fibra/5GHz)" --> SW4
+
+    %% Núcleo SDN - Plano de Datos
+    SW3 --> SW1
+    SW3 --> SW2
+    SW4 --> SW1
+    SW4 --> SW2
+    SW1 <--> SW2
+
+    %% Plano de Control SDN
+    SW1 -- "OpenFlow" --> CTRL
+    SW2 -- "OpenFlow" --> CTRL
+    SW3 -- "OpenFlow" --> CTRL
+    SW4 -- "OpenFlow" --> CTRL
+    APPS --> CTRL
+
+    %% SDN a NFV
+    CTRL -- "Políticas/Orquestación" --> VNF6
+    SW1 -- "Service Function Chaining" --> VNF2
+    SW2 -- "Service Function Chaining" --> VNF3
+    SW3 -- "Tráfico IoT" --> VNF5
+    SW4 -- "Tráfico IoT" --> VNF5
+
+    %% NFV interconexiones
+    VNF2 --> VNF3
+    VNF5 --> VNF1
+    VNF1 --> VNF4
+
+    %% NFV a Red Transporte
+    VNF3 --> MPLS
+    VNF4 --> MPLS
+    MPLS --> FIBRA
+
+    %% Red Transporte a Plataforma IoT
+    FIBRA --> IOT_PLAT
+    IOT_PLAT --> DB_IOT
+    IOT_PLAT --> DASH
+
+    %% Estilos
+    style S1 fill:#FFFFFF,stroke:#2E86C1,stroke-width:1px,color:#000000
+    style S2 fill:#FFFFFF,stroke:#2E86C1,stroke-width:1px,color:#000000
+    style S3 fill:#FFFFFF,stroke:#2E86C1,stroke-width:1px,color:#000000
+    style S4 fill:#FFFFFF,stroke:#2E86C1,stroke-width:1px,color:#000000
+    
+    style GW1 fill:#FFFFFF,stroke:#28B463,stroke-width:2px,color:#000000
+    style GW2 fill:#FFFFFF,stroke:#28B463,stroke-width:2px,color:#000000
+    style GW3 fill:#FFFFFF,stroke:#28B463,stroke-width:2px,color:#000000
+    style GW4 fill:#FFFFFF,stroke:#28B463,stroke-width:2px,color:#000000
+    
+    style SW1 fill:#FFFFFF,stroke:#E67E22,stroke-width:3px,color:#000000
+    style SW2 fill:#FFFFFF,stroke:#E67E22,stroke-width:3px,color:#000000
+    style SW3 fill:#FFFFFF,stroke:#E67E22,stroke-width:2px,color:#000000
+    style SW4 fill:#FFFFFF,stroke:#E67E22,stroke-width:2px,color:#000000
+    
+    style CTRL fill:#FFFFFF,stroke:#E74C3C,stroke-width:4px,color:#000000
+    style APPS fill:#FFFFFF,stroke:#E74C3C,stroke-width:2px,color:#000000
+    
+    style VNF1 fill:#FFFFFF,stroke:#8E44AD,stroke-width:2px,color:#000000
+    style VNF2 fill:#FFFFFF,stroke:#8E44AD,stroke-width:2px,color:#000000
+    style VNF3 fill:#FFFFFF,stroke:#8E44AD,stroke-width:2px,color:#000000
+    style VNF4 fill:#FFFFFF,stroke:#8E44AD,stroke-width:2px,color:#000000
+    style VNF5 fill:#FFFFFF,stroke:#8E44AD,stroke-width:2px,color:#000000
+    style VNF6 fill:#FFFFFF,stroke:#8E44AD,stroke-width:3px,color:#000000
+    
+    style MPLS fill:#FFFFFF,stroke:#F39C12,stroke-width:2px,color:#000000
+    style FIBRA fill:#FFFFFF,stroke:#F39C12,stroke-width:2px,color:#000000
+    
+    style IOT_PLAT fill:#FFFFFF,stroke:#16A085,stroke-width:3px,color:#000000
+    style DB_IOT fill:#FFFFFF,stroke:#16A085,stroke-width:2px,color:#000000
+    style DASH fill:#FFFFFF,stroke:#16A085,stroke-width:2px,color:#000000
