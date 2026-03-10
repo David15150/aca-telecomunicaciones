@@ -1,0 +1,84 @@
+graph TB
+    subgraph "Ciudad (Sensores y Ciudadanos)"
+        A["Sensores IoT<br/>(Alumbrado, Medidores)"]
+        B["Ciudadano<br/>(Portal Web - WebRTC)"]
+    end
+
+    subgraph "Red de Acceso IoT"
+        C["Gateway LoRaWAN 1"]
+        D["Gateway LoRaWAN 2"]
+        E["Gateway LoRaWAN 3"]
+    end
+
+    subgraph "Núcleo de Red Central (On-Premise)"
+        F["Controlador SDN<br/>(Plano de Control - OpenDaylight)"]
+        G["Switches de Fabric<br/>(Plano de Datos - OpenFlow)"]
+        H["Clúster NFV (MANO)"]
+        I["VNF: vFirewall"]
+        J["VNF: vLoad Balancer"]
+        K["VNF: Servidor Red LoRaWAN"]
+        L["VNF: Session Border Controller (SBC)"]
+    end
+
+    subgraph "Plataforma Cloud (AWS)"
+        M["VPC Pública"]
+        N["VPC Privada"]
+        O["Internet Gateway"]
+        P["Application Load Balancer (ALB)"]
+        Q["Servidores Web (Frontend)"]
+        R["Clúster Kubernetes (EKS)<br/>(Microservicios IoT)"]
+        S["Bases de Datos (RDS - Cifradas)"]
+        T["Almacenamiento (S3 - Cifrado)"]
+    end
+
+    subgraph "Centro de Emergencias (911)"
+        U["Agente 911<br/>(Teléfono IP - SIP)"]
+        V["Consola WebRTC"]
+    end
+
+    subgraph "Oficinas Gubernamentales"
+        W["UCaaS (Microsoft Teams Phone)"]
+    end
+
+    A --> C & D & E
+    B -- "Llamada WebRTC" --> V
+    
+    C & D & E -- "Tráfico IoT (Fibra/Microondas)" --> G
+    G -- "Gestión de Flujos" --> F
+    G --> I --> J --> H
+    G --> K
+    G --> L
+
+    L -- "Señalización SIP" --> U
+    L -- "Integración SIP Trunk" --> W
+
+    J -- "Tráfico Web Balanceado" --> O
+    O --> M --> P --> Q
+    P --> R
+    R --> S
+    R --> T
+    
+    %% Estilos con fondo blanco y letras negras
+    style A fill:#FFFFFF,stroke:#B45F2E,stroke-width:2px,color:#000000
+    style B fill:#FFFFFF,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style C fill:#FFFFFF,stroke:#B45F2E,stroke-width:1px,color:#000000
+    style D fill:#FFFFFF,stroke:#B45F2E,stroke-width:1px,color:#000000
+    style E fill:#FFFFFF,stroke:#B45F2E,stroke-width:1px,color:#000000
+    style F fill:#FFFFFF,stroke:#A0522D,stroke-width:4px,color:#000000
+    style G fill:#FFFFFF,stroke:#8B4513,stroke-width:2px,color:#000000
+    style H fill:#FFFFFF,stroke:#B22222,stroke-width:2px,color:#000000
+    style I fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style J fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style K fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style L fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style M fill:#FFFFFF,stroke:#CD853F,stroke-width:2px,color:#000000
+    style N fill:#FFFFFF,stroke:#CD853F,stroke-width:2px,color:#000000
+    style O fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style P fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style Q fill:#FFFFFF,stroke:#B45F2E,stroke-width:1px,color:#000000
+    style R fill:#FFFFFF,stroke:#B45F2E,stroke-width:2px,color:#000000
+    style S fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style T fill:#FFFFFF,stroke:#8B4513,stroke-width:1px,color:#000000
+    style U fill:#FFFFFF,stroke:#B22222,stroke-width:2px,color:#000000
+    style V fill:#FFFFFF,stroke:#B22222,stroke-width:2px,color:#000000
+    style W fill:#FFFFFF,stroke:#8B4513,stroke-width:2px,color:#000000
