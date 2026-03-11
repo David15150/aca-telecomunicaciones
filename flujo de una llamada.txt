@@ -1,0 +1,9 @@
+1. Agente 911 (Teléfono IP) → INVITE (SIP) → PBX Virtual
+2. PBX Virtual → 100 Trying → Agente
+3. PBX Virtual → INVITE → SBC → PSTN
+4. PSTN → 180 Ringing → PBX → Agente
+5. Agente escucha tono de llamada
+6. Destino contesta → 200 OK → PSTN → PBX → Agente
+7. Agente → ACK → PBX → PSTN
+8. ¡LLAMADA ESTABLECIDA! (Flujo RTP de audio)
+9. Al colgar → BYE → PBX → 200 OK
