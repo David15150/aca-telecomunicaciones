@@ -1,20 +1,66 @@
 sequenceDiagram
-    participant C as Ciudadano
-    participant W as Portal Web B-City
-    participant S as Servidor WebRTC
-    participant A as Agente 911
+    participant C as Ciudadano<br/>(Navegador)
+    participant W as Servidor Web<br/>Portal B-City
+    participant S as Servidor Señalización<br/>Janus Gateway
+    participant T as Servidor STUN/TURN<br/>Coturn
+    participant A as Agente 911<br/>(Consola)
+    participant G as API Geolocalización
+    participant R as Sistema de Grabación
 
-    C->>W: Accede al portal de emergencias
-    W->>C: Carga página con botón WebRTC
-    C->>C: Hace clic en "Llamada de Emergencia"
-    C->>W: Solicita permisos de micrófono/cámara
-    W->>C: Permisos concedidos
-    C->>S: Inicia sesión WebRTC (señalización)
-    S->>A: Notifica nueva llamada WebRTC
-    A->>S: Acepta llamada
-    S->>C: Conexión peer-to-peer establecida
-    C->>A: Flujo de audio/video en tiempo real
-    A->>C: Agente visualiza ubicación del ciudadano
-    A->>S: Envía recursos (guía de primeros auxilios)
-    S->>C: Muestra recursos en pantalla
-    C->>A: Finaliza llamada
+    Note over C,A: FASE 1: INICIO DE LLAMADA DE EMERGENCIA
+    
+    C->>W: 1. Accede al portal ciudadano
+    W-->>C: 2. Carga página con botón WebRTC
+    C->>C: 3. Usuario hace clic en "🚨 Emergencia 911"
+    C->>C: 4. Solicita permisos: micrófono, cámara, ubicación
+    C-->>C: 5. Permisos concedidos
+    
+    Note over C,A: FASE 2: ESTABLECIMIENTO DE CONEXIÓN
+    
+    C->>S: 6. OFERTA SDP (Session Description Protocol)
+    S->>A: 7. Notifica nueva llamada (con ID de sesión)
+    A-->>S: 8. RESPUESTA SDP (acepta llamada)
+    S-->>C: 9. Reenvía respuesta SDP
+    
+    C->>T: 10. Solicitud STUN (descubrir IP pública)
+    T-->>C: 11. Respuesta STUN (IP:puerto público)
+    
+    A->>T: 12. Solicitud STUN (descubrir IP pública)
+    T-->>A: 13. Respuesta STUN (IP:puerto público)
+    
+    Note over C,A: FASE 3: CONEXIÓN PEER-TO-PEER (o vía TURN)
+    
+    alt Conexión directa posible
+        C->>A: 14. Intento de conexión directa (ICE candidates)
+        A-->>C: 15. Conexión establecida
+        Note over C,A: ✅ FLUJO DIRECTO (menor latencia)
+    else NAT restrictivo - requiere TURN
+        C->>T: 14. Reenvío de medios vía TURN
+        T->>A: 15. Reenvío de medios
+        Note over C,A: 🔄 FLUJO RELAY (vía servidor TURN)
+    end
+    
+    Note over C,A: FASE 4: COMUNICACIÓN EN CURSO
+    
+    par Audio/Video en tiempo real
+        C->>A: 16. Flujo de audio (Opus)
+        C->>A: 17. Flujo de video (VP8/H.264)
+    end
+    
+    par Datos adicionales
+        C->>G: 18. Solicitud de ubicación precisa
+        G-->>C: 19. Coordenadas (lat, lon)
+        C->>A: 20. Envía ubicación vía DataChannel
+        A->>R: 21. Comienza grabación de la llamada
+    end
+    
+    A->>C: 22. Envía instrucciones (primeros auxilios)
+    C-->>A: 23. Usuario sigue instrucciones
+    
+    Note over C,A: FASE 5: FINALIZACIÓN
+    
+    C->>C: 24. Usuario cuelga
+    C->>S: 25. BYE (finalizar sesión)
+    S->>A: 26. Notifica fin de llamada
+    A->>R: 27. Detiene grabación y guarda metadatos
+    A->>C: 28. Envía SMS/Email con resumen y folio
