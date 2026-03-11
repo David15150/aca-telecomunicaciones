@@ -1,0 +1,79 @@
+graph TB
+    subgraph "Centro de Emergencias 911"
+        A["Agente 911<br/>Teléfono IP (SIP)"]
+        B["Supervisor<br/>Consola WebRTC"]
+        C["Grabador de Llamadas<br/>(Cumplimiento legal)"]
+    end
+
+    subgraph "Oficinas Gubernamentales"
+        D["Funcionarios<br/>Softphones (SIP)"]
+        E["Recepcionista<br/>Teléfono IP"]
+        F["Sala de Juntas<br/>Videoconferencia"]
+    end
+
+    subgraph "Núcleo de Comunicaciones (On-Premise)"
+        G["PBX Virtual<br/>Asterisk/FreePBX"]
+        H["Session Border Controller (SBC)<br/>VNF: vSBC"]
+        I["Servidor WebRTC<br/>(Janus/Coturn)"]
+        J["Gateway SIP-Trunk"]
+    end
+
+    subgraph "Nube UCaaS"
+        K["Microsoft Teams Phone<br/>Zoom Phone"]
+        L["Directorios Sincronizados<br/>(Azure AD)"]
+    end
+
+    subgraph "Red Pública"
+        M["PSTN<br/>(Red Telefónica)"]
+        N["Ciudadanos<br/>Llamadas WebRTC"]
+    end
+
+    subgraph "Centro de Datos"
+        O["Active Directory<br/>(Autenticación)"]
+        P["CRM/CAS<br/>(Gestión de incidentes)"]
+    end
+
+    %% Conexiones Emergencias
+    A --> G
+    B --> I
+    C --> G
+    
+    %% Conexiones Oficinas
+    D --> G
+    E --> G
+    F --> K
+    
+    %% Conexiones Núcleo
+    G --> H
+    I --> H
+    G --> J
+    G --> O
+    G --> P
+    
+    %% Conexiones Nube
+    K --> H
+    K --> L
+    L --> O
+    
+    %% Conexiones Externas
+    H --> M
+    I --> N
+    J --> M
+    
+    %% Estilos
+    style A fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style B fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style C fill:#FFB6C1,stroke:#B22222,stroke-width:1px,color:#000000
+    style D fill:#E6B17E,stroke:#8B4513,stroke-width:2px,color:#000000
+    style E fill:#E6B17E,stroke:#8B4513,stroke-width:2px,color:#000000
+    style F fill:#E6B17E,stroke:#8B4513,stroke-width:2px,color:#000000
+    style G fill:#FFB347,stroke:#A0522D,stroke-width:3px,color:#000000
+    style H fill:#F4A460,stroke:#8B4513,stroke-width:3px,color:#000000
+    style I fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
+    style J fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
+    style K fill:#87CEEB,stroke:#1E4A76,stroke-width:3px,color:#000000
+    style L fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style M fill:#D3D3D3,stroke:#696969,stroke-width:2px,color:#000000
+    style N fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style O fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
+    style P fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
