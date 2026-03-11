@@ -1,0 +1,76 @@
+graph TB
+    subgraph "Amazon EKS Cluster"
+        direction TB
+        
+        subgraph "Namespace: Frontend"
+            F1["Pod: Web UI<br/>(React)"]
+            F2["Pod: Web UI<br/>(React)"]
+            F3["Service: Frontend<br/>(ClusterIP)"]
+        end
+        
+        subgraph "Namespace: IoT Services"
+            I1["Pod: API Gateway<br/>(Node.js)"]
+            I2["Pod: Procesador Datos<br/>(Python)"]
+            I3["Pod: Gestor Alertas<br/>(Go)"]
+            I4["Service: IoT API<br/>(ClusterIP)"]
+        end
+        
+        subgraph "Namespace: Data"
+            D1["Pod: Redis Cache<br/>(Redis)"]
+            D2["Pod: Elasticsearch<br/>(Logs)"]
+            D3["Service: Cache<br/>(ClusterIP)"]
+            D4["Service: Logs<br/>(ClusterIP)"]
+        end
+        
+        subgraph "Ingress Controller"
+            IC["Ingress NGINX<br/>(ALB Integration)"]
+        end
+        
+        subgraph "Autoescalado"
+            HPA1["HPA: Frontend<br/>(CPU > 70%)"]
+            HPA2["HPA: IoT API<br/>(Req/sec > 1000)"]
+            HPA3["Cluster Autoscaler"]
+        end
+    end
+
+    subgraph "Servicios AWS Integrados"
+        AWS1["RDS PostgreSQL<br/>(Base de datos)"]
+        AWS2["S3 Bucket<br/>(Archivos IoT)"]
+        AWS3["ElastiCache Redis<br/>(Caché)"]
+        AWS4["CloudWatch<br/>(Métricas/Logs)"]
+    end
+
+    %% Conexiones
+    IC --> F1 & F2
+    F3 --> I1 & I2 & I3
+    I4 --> D1 & D2
+    D3 --> AWS3
+    D4 --> AWS4
+    I1 --> AWS1
+    I2 --> AWS2
+    
+    %% Estilos
+    style F1 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style F2 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style F3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    
+    style I1 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style I2 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style I3 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style I4 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    
+    style D1 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style D2 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style D3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    style D4 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    
+    style IC fill:#F4A460,stroke:#8B4513,stroke-width:3px
+    
+    style HPA1 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    style HPA2 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    style HPA3 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    
+    style AWS1 fill:#DDA0DD,stroke:#8B4513,stroke-width:2px
+    style AWS2 fill:#DDA0DD,stroke:#8B4513,stroke-width:2px
+    style AWS3 fill:#DDA0DD,stroke:#8B4513,stroke-width:2px
+    style AWS4 fill:#DDA0DD,stroke:#8B4513,stroke-width:2px
