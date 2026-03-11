@@ -1,0 +1,129 @@
+graph TB
+    subgraph "Centro de Datos Local (On-Premise)"
+        direction TB
+        A["Núcleo SDN/NFV<br/>(Controlador + VNFs)"]
+        B["Gateway LoRaWAN<br/>(Red IoT)"]
+        C["PBX Virtual<br/>(Asterisk/FreePBX)"]
+        D["Datos Críticos<br/>(Tiempo real)"]
+        E["Firewall Físico<br/>(Seguridad perimetral)"]
+    end
+
+    subgraph "Conexión Híbrida Segura"
+        F["VPN Site-to-Site<br/>(IPsec)"]
+        G["AWS Direct Connect<br/>(Opcional)"]
+        H["Enlace Dedicado<br/>(Fibra óptica)"]
+    end
+
+    subgraph "Amazon Web Services (AWS) - Nube Pública"
+        direction TB
+        I["Región: US-East-1<br/>(N. Virginia)"]
+        
+        subgraph "VPC Principal - 10.0.0.0/16"
+            direction TB
+            
+            subgraph "Availability Zone A (us-east-1a)"
+                J["Subred Pública A<br/>10.0.1.0/24"]
+                K["Subred Privada A<br/>10.0.10.0/24"]
+                L["Subred DB A<br/>10.0.20.0/24"]
+            end
+            
+            subgraph "Availability Zone B (us-east-1b)"
+                M["Subred Pública B<br/>10.0.2.0/24"]
+                N["Subred Privada B<br/>10.0.11.0/24"]
+                O["Subred DB B<br/>10.0.21.0/24"]
+            end
+            
+            subgraph "Componentes de Red"
+                P["Internet Gateway<br/>(IGW)"]
+                Q["NAT Gateway<br/>(Alta disponibilidad)"]
+                R["Application Load Balancer<br/>(ALB)"]
+                S["Network Load Balancer<br/>(NLB - IoT)"]
+                T["Security Groups<br/>(Firewalls virtuales)"]
+                U["NACLs<br/>(Control subred)"]
+            end
+        end
+        
+        subgraph "Servicios Gestionados AWS"
+            V["Amazon EKS<br/>(Kubernetes)"]
+            W["Amazon RDS<br/>(PostgreSQL/MySQL)"]
+            X["Amazon S3<br/>(Datos históricos IoT)"]
+            Y["Amazon ElastiCache<br/>(Redis - Caché)"]
+            Z["Amazon CloudFront<br/>(CDN)"]
+            AA["AWS WAF & Shield<br/>(Protección DDoS)"]
+        end
+    end
+
+    subgraph "Usuarios y Accesos"
+        AB["Ciudadanos<br/>(Portal Web)"]
+        AC["Funcionarios<br/>(Gestión Urbana)"]
+        AD["Administradores<br/>(DevOps)"]
+    end
+
+    %% Conexiones On-Premise a Cloud
+    A --> F
+    B --> F
+    C --> F
+    D --> F
+    F --> I
+    
+    %% Opcional Direct Connect
+    E -.-> G
+    G -.-> I
+    
+    %% Conexiones VPC
+    P --> I
+    Q --> I
+    R --> J & M
+    S --> K & N
+    T --> J & K & L & M & N & O
+    U --> J & K & L & M & N & O
+    
+    %% Servicios AWS
+    J & M --> V
+    K & N --> W
+    K & N --> X
+    K & N --> Y
+    J & M --> Z
+    Z --> AA
+    
+    %% Accesos de usuarios
+    AB --> Z
+    AC --> Z
+    AD --> I
+    
+    %% Estilos
+    style A fill:#FFB347,stroke:#A0522D,stroke-width:3px,color:#000000
+    style B fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
+    style C fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
+    style D fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style E fill:#F08080,stroke:#B22222,stroke-width:2px,color:#000000
+    
+    style F fill:#87CEEB,stroke:#1E4A76,stroke-width:3px,color:#000000
+    style G fill:#87CEEB,stroke:#1E4A76,stroke-width:2px,color:#000000
+    style H fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    
+    style I fill:#E6E6FA,stroke:#4B0082,stroke-width:2px,color:#000000
+    style J fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style K fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style L fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style M fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style N fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style O fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    
+    style P fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style Q fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style R fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style S fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style T fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style U fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    
+    style V fill:#DDA0DD,stroke:#8B4513,stroke-width:3px,color:#000000
+    style W fill:#DDA0DD,stroke:#8B4513,stroke-width:2px,color:#000000
+    style X fill:#DDA0DD,stroke:#8B4513,stroke-width:2px,color:#000000
+    style Y fill:#DDA0DD,stroke:#8B4513,stroke-width:2px,color:#000000
+    style Z fill:#DDA0DD,stroke:#8B4513,stroke-width:2px,color:#000000
+    style AA fill:#DDA0DD,stroke:#8B4513,stroke-width:2px,color:#000000
+    
+    style AB fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style AC fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style AD fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
