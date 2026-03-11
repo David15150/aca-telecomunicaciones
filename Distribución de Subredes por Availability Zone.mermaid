@@ -1,0 +1,30 @@
+graph TB
+    subgraph "VPC B-City (10.0.0.0/16)"
+        direction TB
+        
+        subgraph "Availability Zone A (us-east-1a)"
+            A1["Subred Pública A<br/>10.0.1.0/24<br/>(256 IPs)"]
+            A2["Subred Privada A<br/>10.0.10.0/24<br/>(256 IPs)"]
+            A3["Subred Base de Datos A<br/>10.0.20.0/24<br/>(256 IPs)"]
+        end
+        
+        subgraph "Availability Zone B (us-east-1b)"
+            B1["Subred Pública B<br/>10.0.2.0/24<br/>(256 IPs)"]
+            B2["Subred Privada B<br/>10.0.11.0/24<br/>(256 IPs)"]
+            B3["Subred Base de Datos B<br/>10.0.21.0/24<br/>(256 IPs)"]
+        end
+        
+        subgraph "Subredes Especiales"
+            C1["Subred VPN<br/>10.0.100.0/24<br/>(Conexión On-Premise)"]
+            C2["Subred Lambda<br/>10.0.200.0/24<br/>(Funciones serverless)"]
+        end
+    end
+    
+    style A1 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style A2 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style A3 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style B1 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style B2 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style B3 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style C1 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
+    style C2 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
