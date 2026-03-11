@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant C as Ciudadano
+    participant W as Portal Web B-City
+    participant S as Servidor WebRTC
+    participant A as Agente 911
+
+    C->>W: Accede al portal de emergencias
+    W->>C: Carga página con botón WebRTC
+    C->>C: Hace clic en "Llamada de Emergencia"
+    C->>W: Solicita permisos de micrófono/cámara
+    W->>C: Permisos concedidos
+    C->>S: Inicia sesión WebRTC (señalización)
+    S->>A: Notifica nueva llamada WebRTC
+    A->>S: Acepta llamada
+    S->>C: Conexión peer-to-peer establecida
+    C->>A: Flujo de audio/video en tiempo real
+    A->>C: Agente visualiza ubicación del ciudadano
+    A->>S: Envía recursos (guía de primeros auxilios)
+    S->>C: Muestra recursos en pantalla
+    C->>A: Finaliza llamada
