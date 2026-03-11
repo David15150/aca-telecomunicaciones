@@ -1,79 +1,99 @@
 graph TB
+    subgraph "Ciudadano (Cliente Web)"
+        A["Navegador Web<br/>Chrome/Firefox/Safari"]
+        B["Aplicación Web<br/>Portal B-City"]
+        C["Botón Emergencia 911<br/>WebRTC API"]
+        D["Permisos:<br/>🎤 Micrófono<br/>📹 Cámara<br/>📍 Geolocalización"]
+    end
+
+    subgraph "Infraestructura WebRTC (On-Premise/Cloud)"
+        direction TB
+        E["Servidor Web<br/>(Nginx/Apache)"]
+        F["Servidor Señalización<br/>Janus Gateway"]
+        G["Servidor STUN/TURN<br/>Coturn"]
+        H["Base de Datos<br/>Sesiones Activas"]
+        I["Balanceador de Carga<br/>(VNF: vLB)"]
+    end
+
     subgraph "Centro de Emergencias 911"
-        A["Agente 911<br/>Teléfono IP (SIP)"]
-        B["Supervisor<br/>Consola WebRTC"]
-        C["Grabador de Llamadas<br/>(Cumplimiento legal)"]
+        direction TB
+        J["Consola Agente<br/>(Aplicación Web)"]
+        K["Cliente WebRTC<br/>Agente"]
+        L["Sistema CAD<br/>(Computer Aided Dispatch)"]
+        M["Grabación de Llamadas<br/>(Cumplimiento legal)"]
+        N["Monitor de Calidad<br/>(QoS/Jitter/Latencia)"]
     end
 
-    subgraph "Oficinas Gubernamentales"
-        D["Funcionarios<br/>Softphones (SIP)"]
-        E["Recepcionista<br/>Teléfono IP"]
-        F["Sala de Juntas<br/>Videoconferencia"]
+    subgraph "Red y Conectividad"
+        O["Internet"]
+        P["Firewall/VNF:vFW"]
+        Q["NAT/Firewalls<br/>Domésticos"]
+        R["Red 4G/5G<br/>Móvil"]
     end
 
-    subgraph "Núcleo de Comunicaciones (On-Premise)"
-        G["PBX Virtual<br/>Asterisk/FreePBX"]
-        H["Session Border Controller (SBC)<br/>VNF: vSBC"]
-        I["Servidor WebRTC<br/>(Janus/Coturn)"]
-        J["Gateway SIP-Trunk"]
+    subgraph "Servicios de Apoyo"
+        S["API Geolocalización<br/>(Google Maps/OpenStreetMap)"]
+        T["Servicio de Traducción<br/>(Idiomas)"]
+        U["Sistema de Tickets<br/>(Seguimiento)"]
+        V["Notificaciones SMS/Email<br/>(Confirmación)"]
     end
 
-    subgraph "Nube UCaaS"
-        K["Microsoft Teams Phone<br/>Zoom Phone"]
-        L["Directorios Sincronizados<br/>(Azure AD)"]
-    end
-
-    subgraph "Red Pública"
-        M["PSTN<br/>(Red Telefónica)"]
-        N["Ciudadanos<br/>Llamadas WebRTC"]
-    end
-
-    subgraph "Centro de Datos"
-        O["Active Directory<br/>(Autenticación)"]
-        P["CRM/CAS<br/>(Gestión de incidentes)"]
-    end
-
-    %% Conexiones Emergencias
-    A --> G
-    B --> I
-    C --> G
+    %% Conexiones Ciudadano
+    A --> B
+    B --> C
+    C --> D
+    B --> E
     
-    %% Conexiones Oficinas
-    D --> G
-    E --> G
-    F --> K
-    
-    %% Conexiones Núcleo
+    %% Conexiones Infraestructura
+    E --> I
+    I --> F
+    I --> G
+    F --> H
     G --> H
-    I --> H
-    G --> J
-    G --> O
-    G --> P
     
-    %% Conexiones Nube
-    K --> H
+    %% Conexiones Red
+    O --> P
+    P --> I
+    Q --> O
+    R --> O
+    
+    %% Conexiones Emergencias
+    I --> J
+    J --> K
     K --> L
-    L --> O
+    K --> M
+    K --> N
     
-    %% Conexiones Externas
-    H --> M
-    I --> N
-    J --> M
+    %% Conexiones Servicios Apoyo
+    K --> S
+    K --> T
+    L --> U
+    K --> V
     
-    %% Estilos
-    style A fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
-    style B fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
-    style C fill:#FFB6C1,stroke:#B22222,stroke-width:1px,color:#000000
-    style D fill:#E6B17E,stroke:#8B4513,stroke-width:2px,color:#000000
-    style E fill:#E6B17E,stroke:#8B4513,stroke-width:2px,color:#000000
-    style F fill:#E6B17E,stroke:#8B4513,stroke-width:2px,color:#000000
-    style G fill:#FFB347,stroke:#A0522D,stroke-width:3px,color:#000000
-    style H fill:#F4A460,stroke:#8B4513,stroke-width:3px,color:#000000
+    %% Estilos mejorados
+    style A fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style B fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style C fill:#FFB6C1,stroke:#B22222,stroke-width:3px,color:#000000
+    style D fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    
+    style E fill:#87CEEB,stroke:#1E4A76,stroke-width:2px,color:#000000
+    style F fill:#98FB98,stroke:#228B22,stroke-width:3px,color:#000000
+    style G fill:#98FB98,stroke:#228B22,stroke-width:3px,color:#000000
+    style H fill:#D3D3D3,stroke:#696969,stroke-width:1px,color:#000000
     style I fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
-    style J fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
-    style K fill:#87CEEB,stroke:#1E4A76,stroke-width:3px,color:#000000
-    style L fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
-    style M fill:#D3D3D3,stroke:#696969,stroke-width:2px,color:#000000
-    style N fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
-    style O fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
-    style P fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
+    
+    style J fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style K fill:#FFB6C1,stroke:#B22222,stroke-width:3px,color:#000000
+    style L fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
+    style M fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
+    style N fill:#B0C4DE,stroke:#2F4F4F,stroke-width:2px,color:#000000
+    
+    style O fill:#D3D3D3,stroke:#696969,stroke-width:2px,color:#000000
+    style P fill:#F08080,stroke:#B22222,stroke-width:2px,color:#000000
+    style Q fill:#D3D3D3,stroke:#696969,stroke-width:1px,color:#000000
+    style R fill:#D3D3D3,stroke:#696969,stroke-width:1px,color:#000000
+    
+    style S fill:#E6E6FA,stroke:#4B0082,stroke-width:1px,color:#000000
+    style T fill:#E6E6FA,stroke:#4B0082,stroke-width:1px,color:#000000
+    style U fill:#E6E6FA,stroke:#4B0082,stroke-width:1px,color:#000000
+    style V fill:#E6E6FA,stroke:#4B0082,stroke-width:1px,color:#000000
