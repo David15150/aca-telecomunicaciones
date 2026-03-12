@@ -1,35 +1,35 @@
 graph LR
-    subgraph "FASE 1: DETECCIÓN (T < 5 min)"
-        A1["Alarma automática<br/>(CloudWatch/Prometheus)"]
-        A2["Reporte usuario<br/>(Ciudadano/Agente)"]
-        A3["Escaneo proactivo<br/>(Vulnerabilidades)"]
+    subgraph "**FASE 1: DETECCIÓN (T < 5 min)**"
+        A1["**Alarma automática**<br/>(CloudWatch/Prometheus)"]
+        A2["**Reporte usuario**<br/>(Ciudadano/Agente)"]
+        A3["**Escaneo proactivo**<br/>(Vulnerabilidades)"]
     end
 
-    subgraph "FASE 2: CLASIFICACIÓN (T < 15 min)"
-        B1["Nivel: Crítico<br/>(911 caído, datos expuestos)"]
-        B2["Nivel: Alto<br/>(Servicio degradado)"]
-        B3["Nivel: Medio<br/>(Incidente aislado)"]
-        B4["Nivel: Bajo<br/>(Alarma falsa)"]
+    subgraph "**FASE 2: CLASIFICACIÓN (T < 15 min)**"
+        B1["**Nivel: Crítico**<br/>(911 caído, datos expuestos)"]
+        B2["**Nivel: Alto**<br/>(Servicio degradado)"]
+        B3["**Nivel: Medio**<br/>(Incidente aislado)"]
+        B4["**Nivel: Bajo**<br/>(Alarma falsa)"]
     end
 
-    subgraph "FASE 3: RESPUESTA (T < 30 min)"
-        C1["Equipo: NOC/SOC<br/>(Disponibilidad 24/7)"]
-        C2["Contención:<br/>- Aislar sistemas<br/>- Bloquear IPs<br/>- Revocar accesos"]
-        C3["Comunicación:<br/>- Alcaldía<br/>- Ciudadanos<br/>- Regulador"]
+    subgraph "**FASE 3: RESPUESTA (T < 30 min)**"
+        C1["**Equipo: NOC/SOC**<br/>(Disponibilidad 24/7)"]
+        C2["**Contención:**<br/>- Aislar sistemas<br/>- Bloquear IPs<br/>- Revocar accesos"]
+        C3["**Comunicación:**<br/>- Alcaldía<br/>- Ciudadanos<br/>- Regulador"]
     end
 
-    subgraph "FASE 4: RECUPERACIÓN (T < 4 horas)"
-        D1["Restaurar desde backup<br/>(RPO < 15 min)"]
-        D2["Failover a DR site<br/>(RTO < 1 hora)"]
-        D3["Parchear vulnerabilidad"]
-        D4["Verificar integridad"]
+    subgraph "**FASE 4: RECUPERACIÓN (T < 4 horas)**"
+        D1["**Restaurar desde backup**<br/>(RPO < 15 min)"]
+        D2["**Failover a DR site**<br/>(RTO < 1 hora)"]
+        D3["**Parchear vulnerabilidad**"]
+        D4["**Verificar integridad**"]
     end
 
-    subgraph "FASE 5: POST-MORTEM (T < 48 horas)"
-        E1["Análisis causa raíz"]
-        E2["Lecciones aprendidas"]
-        E3["Actualizar políticas"]
-        E4["Entrenamiento personal"]
+    subgraph "**FASE 5: POST-MORTEM (T < 48 horas)**"
+        E1["**Análisis causa raíz**"]
+        E2["**Lecciones aprendidas**"]
+        E3["**Actualizar políticas**"]
+        E4["**Entrenamiento personal**"]
     end
 
     A1 & A2 & A3 --> B1 & B2 & B3 & B4
@@ -40,25 +40,25 @@ graph LR
     C1 & C2 & C3 --> D1 & D2 & D3 & D4
     D1 & D2 & D3 & D4 --> E1 & E2 & E3 & E4
     
-    style A1 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
-    style A2 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
-    style A3 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    style A1 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style A2 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style A3 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
     
-    style B1 fill:#FFB6C1,stroke:#B22222,stroke-width:3px
-    style B2 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
-    style B3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style B4 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style B1 fill:#FFB6C1,stroke:#B22222,stroke-width:3px,color:#000000
+    style B2 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style B3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style B4 fill:#98FB98,stroke:#228B22,stroke-width:1px,color:#000000
     
-    style C1 fill:#F4A460,stroke:#8B4513,stroke-width:2px
-    style C2 fill:#F4A460,stroke:#8B4513,stroke-width:2px
-    style C3 fill:#F4A460,stroke:#8B4513,stroke-width:2px
+    style C1 fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
+    style C2 fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
+    style C3 fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
     
-    style D1 fill:#98FB98,stroke:#228B22,stroke-width:2px
-    style D2 fill:#98FB98,stroke:#228B22,stroke-width:2px
-    style D3 fill:#98FB98,stroke:#228B22,stroke-width:2px
-    style D4 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style D1 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style D2 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style D3 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style D4 fill:#98FB98,stroke:#228B22,stroke-width:1px,color:#000000
     
-    style E1 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style E2 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style E3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style E4 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    style E1 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style E2 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style E3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style E4 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
