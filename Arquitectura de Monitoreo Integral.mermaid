@@ -1,68 +1,65 @@
 graph TB
-    subgraph "Capa de Recolección"
+    subgraph "**Principio: NUNCA CONFÍES, SIEMPRE VERIFICA**"
         direction TB
-        M1["Agentes CloudWatch<br/>(EC2, EKS, RDS)"]
-        M2["Prometheus Exporters<br/>(Kubernetes)"]
-        M3["Sondas Sintéticas<br/>(VoIP, Web)"]
-        M4["Logs de Aplicación<br/>(Fluentd/Logstash)"]
-        M5["SNMP Traps<br/>(Switches SDN)"]
+        
+        subgraph "**Acceso desde cualquier ubicación**"
+            Z1["**Ciudadano**<br/>(Internet)"]
+            Z2["**Funcionario**<br/>(Oficina/Remoto)"]
+            Z3["**Administrador**<br/>(On-premise)"]
+            Z4["**Sensor IoT**<br/>(Red municipal)"]
+        end
+        
+        subgraph "**Capa 1: Verificación de Identidad**"
+            V1["**Autenticación Multifactor**<br/>(MFA - Funcionarios)"]
+            V2["**Certificados Digitales**<br/>(Sensores IoT)"]
+            V3["**OAuth 2.0 / OIDC**<br/>(Portal Ciudadano)"]
+            V4["**Federación con AD**<br/>(Administradores)"]
+        end
+        
+        subgraph "**Capa 2: Verificación de Dispositivo**"
+            D1["**Endpoint Compliance**<br/>(Antivirus, parches)"]
+            D2["**Huella Digital**<br/>(Browser fingerprinting)"]
+            D3["**Modelo Confianza**<br/>(Comportamiento anómalo)"]
+        end
+        
+        subgraph "**Capa 3: Autorización Microsegmentada**"
+            M1["**Policy: Acceso a BD**<br/>(Solo desde pods autorizados)"]
+            M2["**Policy: Acceso a S3**<br/>(Solo servicios específicos)"]
+            M3["**Policy: Acceso a API**<br/>(Rate limiting, WAF)"]
+            M4["**Policy: Acceso VoIP**<br/>(Solo SBC autorizado)"]
+        end
+        
+        subgraph "**Capa 4: Monitoreo Continuo**"
+            C1["**Análisis de Comportamiento**<br/>(UEBA)"]
+            C2["**Detección de Anomalías**<br/>(Machine Learning)"]
+            C3["**Registro de Eventos**<br/>(CloudTrail + Splunk)"]
+        end
+        
+        Z1 & Z2 & Z3 & Z4 --> V1 & V2 & V3 & V4
+        V1 & V2 & V3 & V4 --> D1 & D2 & D3
+        D1 & D2 & D3 --> M1 & M2 & M3 & M4
+        M1 & M2 & M3 & M4 --> C1 & C2 & C3
     end
-
-    subgraph "Capa de Almacenamiento"
-        N1["Amazon CloudWatch<br/>(Métricas AWS)"]
-        N2["Prometheus TSDB<br/>(Métricas personalizadas)"]
-        N3["Elasticsearch Cluster<br/>(Logs centralizados)"]
-        N4["S3 Glacier<br/>(Archivo histórico)"]
-    end
-
-    subgraph "Capa de Procesamiento"
-        O1["Alarmas CloudWatch<br/>(Umbrales críticos)"]
-        O2["Prometheus Alertmanager"]
-        O3["Análisis ML<br/>(Detección anomalías)"]
-        O4["Correlación de Eventos"]
-    end
-
-    subgraph "Capa de Visualización"
-        P1["Dashboards Grafana<br/>(Tiempo real)"]
-        P2["Kibana<br/>(Análisis logs)"]
-        P3["CloudWatch Dashboard<br/>(Visión AWS)"]
-        P4["Reportes Semanales<br/>(PDF/Excel)"]
-    end
-
-    subgraph "Capa de Notificación"
-        Q1["Slack/Teams<br/>(Alertas operativas)"]
-        Q2["Correo Electrónico<br/>(Reportes)"]
-        Q3["SMS/WhatsApp<br/>(Incidentes críticos)"]
-        Q4["PagerDuty/Opsgenie<br/>(On-call)"]
-    end
-
-    M1 & M2 & M3 & M4 & M5 --> N1 & N2 & N3
-    N1 & N2 & N3 --> O1 & O2 & O3 & O4
-    O1 & O2 & O3 & O4 --> P1 & P2 & P3 & P4
-    P1 & P2 & P3 & P4 --> Q1 & Q2 & Q3 & Q4
     
-    style M1 fill:#98FB98,stroke:#228B22,stroke-width:1px
-    style M2 fill:#98FB98,stroke:#228B22,stroke-width:1px
-    style M3 fill:#98FB98,stroke:#228B22,stroke-width:1px
-    style M4 fill:#98FB98,stroke:#228B22,stroke-width:1px
-    style M5 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style Z1 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style Z2 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style Z3 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style Z4 fill:#F4A460,stroke:#8B4513,stroke-width:2px,color:#000000
     
-    style N1 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
-    style N2 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
-    style N3 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
-    style N4 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    style V1 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px,color:#000000
+    style V2 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px,color:#000000
+    style V3 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px,color:#000000
+    style V4 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px,color:#000000
     
-    style O1 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
-    style O2 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
-    style O3 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
-    style O4 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
+    style D1 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style D2 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style D3 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
     
-    style P1 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style P2 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style P3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
-    style P4 fill:#FFE4B5,stroke:#CD853F,stroke-width:1px
+    style M1 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style M2 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style M3 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style M4 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
     
-    style Q1 fill:#F4A460,stroke:#8B4513,stroke-width:1px
-    style Q2 fill:#F4A460,stroke:#8B4513,stroke-width:1px
-    style Q3 fill:#F4A460,stroke:#8B4513,stroke-width:2px
-    style Q4 fill:#F4A460,stroke:#8B4513,stroke-width:2px
+    style C1 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style C2 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
+    style C3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px,color:#000000
