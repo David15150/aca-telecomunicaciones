@@ -1,0 +1,68 @@
+graph TB
+    subgraph "Capa de Recolección"
+        direction TB
+        M1["Agentes CloudWatch<br/>(EC2, EKS, RDS)"]
+        M2["Prometheus Exporters<br/>(Kubernetes)"]
+        M3["Sondas Sintéticas<br/>(VoIP, Web)"]
+        M4["Logs de Aplicación<br/>(Fluentd/Logstash)"]
+        M5["SNMP Traps<br/>(Switches SDN)"]
+    end
+
+    subgraph "Capa de Almacenamiento"
+        N1["Amazon CloudWatch<br/>(Métricas AWS)"]
+        N2["Prometheus TSDB<br/>(Métricas personalizadas)"]
+        N3["Elasticsearch Cluster<br/>(Logs centralizados)"]
+        N4["S3 Glacier<br/>(Archivo histórico)"]
+    end
+
+    subgraph "Capa de Procesamiento"
+        O1["Alarmas CloudWatch<br/>(Umbrales críticos)"]
+        O2["Prometheus Alertmanager"]
+        O3["Análisis ML<br/>(Detección anomalías)"]
+        O4["Correlación de Eventos"]
+    end
+
+    subgraph "Capa de Visualización"
+        P1["Dashboards Grafana<br/>(Tiempo real)"]
+        P2["Kibana<br/>(Análisis logs)"]
+        P3["CloudWatch Dashboard<br/>(Visión AWS)"]
+        P4["Reportes Semanales<br/>(PDF/Excel)"]
+    end
+
+    subgraph "Capa de Notificación"
+        Q1["Slack/Teams<br/>(Alertas operativas)"]
+        Q2["Correo Electrónico<br/>(Reportes)"]
+        Q3["SMS/WhatsApp<br/>(Incidentes críticos)"]
+        Q4["PagerDuty/Opsgenie<br/>(On-call)"]
+    end
+
+    M1 & M2 & M3 & M4 & M5 --> N1 & N2 & N3
+    N1 & N2 & N3 --> O1 & O2 & O3 & O4
+    O1 & O2 & O3 & O4 --> P1 & P2 & P3 & P4
+    P1 & P2 & P3 & P4 --> Q1 & Q2 & Q3 & Q4
+    
+    style M1 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style M2 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style M3 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style M4 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    style M5 fill:#98FB98,stroke:#228B22,stroke-width:1px
+    
+    style N1 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
+    style N2 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
+    style N3 fill:#87CEEB,stroke:#1E4A76,stroke-width:2px
+    style N4 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    
+    style O1 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
+    style O2 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
+    style O3 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
+    style O4 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
+    
+    style P1 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    style P2 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    style P3 fill:#FFE4B5,stroke:#CD853F,stroke-width:2px
+    style P4 fill:#FFE4B5,stroke:#CD853F,stroke-width:1px
+    
+    style Q1 fill:#F4A460,stroke:#8B4513,stroke-width:1px
+    style Q2 fill:#F4A460,stroke:#8B4513,stroke-width:1px
+    style Q3 fill:#F4A460,stroke:#8B4513,stroke-width:2px
+    style Q4 fill:#F4A460,stroke:#8B4513,stroke-width:2px
