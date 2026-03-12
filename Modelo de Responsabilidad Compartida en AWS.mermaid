@@ -1,30 +1,30 @@
 graph TB
-    subgraph "Responsabilidad del Cliente (B-City) - Seguridad EN la Nube"
+    subgraph "**Responsabilidad del Cliente (B-City) - Seguridad EN la Nube**"
         direction TB
-        A1["Datos del Ciudadano<br/>(Información personal, sensores)"]
-        A2["Plataformas y Aplicaciones<br/>(Portal Web, API IoT)"]
-        A3["Identity & Access Management (IAM)<br/>(Usuarios, roles, políticas)"]
-        A4["Configuración de Red<br/>(VPC, Subredes, Security Groups)"]
-        A5["Sistema Operativo<br/>(Parches, hardening)"]
-        A6["Datos en Tránsito y Reposo<br/>(Cifrado TLS/SSL, KMS)"]
-        A7["Firewall Aplicaciones (WAF)<br/>(Protección SQL injection, XSS)"]
+        A1["**Datos del Ciudadano**<br/>(Información personal, sensores)"]
+        A2["**Plataformas y Aplicaciones**<br/>(Portal Web, API IoT)"]
+        A3["**Identity & Access Management (IAM)**<br/>(Usuarios, roles, políticas)"]
+        A4["**Configuración de Red**<br/>(VPC, Subredes, Security Groups)"]
+        A5["**Sistema Operativo**<br/>(Parches, hardening)"]
+        A6["**Datos en Tránsito y Reposo**<br/>(Cifrado TLS/SSL, KMS)"]
+        A7["**Firewall Aplicaciones (WAF)**<br/>(Protección SQL injection, XSS)"]
     end
 
-    subgraph "Responsabilidad Compartida"
-        B1["Gestión de Identidades<br/>(Integración AD + IAM)"]
-        B2["Monitoreo y Logs<br/>(CloudWatch + Splunk)"]
-        B3["Respuesta a Incidentes<br/>(Plan de contingencia)"]
-        B4["Cumplimiento Normativo<br/>(Ley de datos, ISO 27001)"]
+    subgraph "**Responsabilidad Compartida**"
+        B1["**Gestión de Identidades**<br/>(Integración AD + IAM)"]
+        B2["**Monitoreo y Logs**<br/>(CloudWatch + Splunk)"]
+        B3["**Respuesta a Incidentes**<br/>(Plan de contingencia)"]
+        B4["**Cumplimiento Normativo**<br/>(Ley de datos, ISO 27001)"]
     end
 
-    subgraph "Responsabilidad de AWS - Seguridad DE la Nube"
+    subgraph "**Responsabilidad de AWS - Seguridad DE la Nube**"
         direction TB
-        C1["Hardware y Centros de Datos<br/>(Seguridad física, redundancia)"]
-        C2["Infraestructura de Red<br/>(Switches, routers, DDoS protection)"]
-        C3["Hipervisores y Virtualización<br/>(Aislamiento de instancias)"]
-        C4["Servicios Gestionados<br/>(RDS, S3, EKS - parcheados por AWS)"]
-        C5["Certificaciones y Cumplimiento<br/>(SOC, PCI, FedRAMP)"]
-        C6["Protección DDoS a nivel infraestructura<br/>(AWS Shield Standard)"]
+        C1["**Hardware y Centros de Datos**<br/>(Seguridad física, redundancia)"]
+        C2["**Infraestructura de Red**<br/>(Switches, routers, DDoS protection)"]
+        C3["**Hipervisores y Virtualización**<br/>(Aislamiento de instancias)"]
+        C4["**Servicios Gestionados**<br/>(RDS, S3, EKS - parcheados por AWS)"]
+        C5["**Certificaciones y Cumplimiento**<br/>(SOC, PCI, FedRAMP)"]
+        C6["**Protección DDoS a nivel infraestructura**<br/>(AWS Shield Standard)"]
     end
 
     A1 --> B1
@@ -42,7 +42,6 @@ graph TB
     C5 --> B1
     C6 --> B2
     
-    %% Estilos
     style A1 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
     style A2 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
     style A3 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
