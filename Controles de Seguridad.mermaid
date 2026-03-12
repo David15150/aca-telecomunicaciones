@@ -1,27 +1,27 @@
 graph TB
-    subgraph "Políticas IAM - Principio de Mínimo Privilegio"
+    subgraph "**Políticas IAM - Principio de Mínimo Privilegio**"
         direction TB
         
-        subgraph "Usuarios Humanos"
-            U1["Administrador Cloud<br/>(Acceso total gestionado)"]
-            U2["Operador Red<br/>(Monitoreo, read-only)"]
-            U3["Desarrollador IoT<br/>(Acceso a servicios IoT)"]
-            U4["Auditor<br/>(Solo lectura logs)"]
+        subgraph "**Usuarios Humanos**"
+            U1["**Administrador Cloud**<br/>(Acceso total gestionado)"]
+            U2["**Operador Red**<br/>(Monitoreo, read-only)"]
+            U3["**Desarrollador IoT**<br/>(Acceso a servicios IoT)"]
+            U4["**Auditor**<br/>(Solo lectura logs)"]
         end
         
-        subgraph "Roles de Servicio"
-            R1["Rol: EKS to RDS<br/>(Acceso BD desde pods)"]
-            R2["Rol: Lambda to S3<br/>(Leer archivos IoT)"]
-            R3["Rol: EC2 to Secrets Manager<br/>(Obtener credenciales)"]
-            R4["Rol: CloudWatch to SNS<br/>(Enviar alertas)"]
+        subgraph "**Roles de Servicio**"
+            R1["**Rol: EKS to RDS**<br/>(Acceso BD desde pods)"]
+            R2["**Rol: Lambda to S3**<br/>(Leer archivos IoT)"]
+            R3["**Rol: EC2 to Secrets Manager**<br/>(Obtener credenciales)"]
+            R4["**Rol: CloudWatch to SNS**<br/>(Enviar alertas)"]
         end
         
-        subgraph "Políticas"
-            P1["Policy: AdminFullAccess<br/>(Solo U1)"]
-            P2["Policy: ReadOnlyAccess<br/>(U2, U4)"]
-            P3["Policy: IoTDevAccess<br/>(U3, R2)"]
-            P4["Policy: DBConnectAccess<br/>(R1)"]
-            P5["Policy: SecretRetrieval<br/>(R3)"]
+        subgraph "**Políticas**"
+            P1["**Policy: AdminFullAccess**<br/>(Solo U1)"]
+            P2["**Policy: ReadOnlyAccess**<br/>(U2, U4)"]
+            P3["**Policy: IoTDevAccess**<br/>(U3, R2)"]
+            P4["**Policy: DBConnectAccess**<br/>(R1)"]
+            P5["**Policy: SecretRetrieval**<br/>(R3)"]
         end
         
         U1 --> P1
@@ -35,18 +35,18 @@ graph TB
         R4 --> P2
     end
     
-    style U1 fill:#FFB6C1,stroke:#B22222,stroke-width:2px
-    style U2 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px
-    style U3 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px
-    style U4 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px
+    style U1 fill:#FFB6C1,stroke:#B22222,stroke-width:2px,color:#000000
+    style U2 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style U3 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
+    style U4 fill:#FFDAB9,stroke:#CD7F4B,stroke-width:2px,color:#000000
     
-    style R1 fill:#98FB98,stroke:#228B22,stroke-width:2px
-    style R2 fill:#98FB98,stroke:#228B22,stroke-width:2px
-    style R3 fill:#98FB98,stroke:#228B22,stroke-width:2px
-    style R4 fill:#98FB98,stroke:#228B22,stroke-width:2px
+    style R1 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style R2 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style R3 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
+    style R4 fill:#98FB98,stroke:#228B22,stroke-width:2px,color:#000000
     
-    style P1 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
-    style P2 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
-    style P3 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
-    style P4 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
-    style P5 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px
+    style P1 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style P2 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style P3 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style P4 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
+    style P5 fill:#87CEEB,stroke:#1E4A76,stroke-width:1px,color:#000000
